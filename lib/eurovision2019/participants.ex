@@ -58,7 +58,9 @@ defmodule Eurovision2019.Participants do
     |> case do
       {:ok, participant} ->
         maybe_update_photo(participant, attrs)
-      error -> error
+
+      error ->
+        error
     end
   end
 
@@ -81,19 +83,21 @@ defmodule Eurovision2019.Participants do
     |> case do
       {:ok, participant} ->
         maybe_update_photo(participant, attrs)
-        error -> error
-      end
-    end
 
-    defp maybe_update_photo(participant, %{"photo_file" => upload}) do
-      maybe_delete_photo(participant)
-      filename = Path.basename(upload.filename)
+      error ->
+        error
+    end
+  end
+
+  defp maybe_update_photo(participant, %{"photo_file" => upload}) do
+    maybe_delete_photo(participant)
+    filename = Path.basename(upload.filename)
 
     url = Assets.participant_photo_url(participant, filename)
     Storage.upload(upload.path, url)
 
     participant
-    |> Participant.changeset(%{"photo": filename})
+    |> Participant.changeset(%{photo: filename})
     |> Repo.update()
   end
 

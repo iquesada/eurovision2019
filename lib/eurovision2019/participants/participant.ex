@@ -8,6 +8,7 @@ defmodule Eurovision2019.Participants.Participant do
     field :name, :string
     field :video, :string
     field :photo, :string
+    belongs_to :edition, Eurovision2019.Edition, foreign_key: :edition_id
 
     timestamps()
   end
@@ -15,7 +16,7 @@ defmodule Eurovision2019.Participants.Participant do
   @doc false
   def changeset(participant, attrs) do
     participant
-    |> cast(attrs, [:name, :country, :description, :video, :photo])
-    |> validate_required([:name, :country])
+    |> cast(attrs, [:name, :country, :description, :video, :photo, :edition_id])
+    |> validate_required([:name, :country, :edition_id])
   end
 end

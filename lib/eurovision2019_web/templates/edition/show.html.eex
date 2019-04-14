@@ -1,0 +1,13 @@
+<h1>Show Edition</h1>
+
+<ul>
+
+  <li>
+    <strong>Year:</strong>
+    <%= @edition.year %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.edition_path(@conn, :edit, @edition) %></span>
+<span><%= link "Back", to: Routes.edition_path(@conn, :index) %></span>

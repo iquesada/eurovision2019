@@ -18,7 +18,11 @@ defmodule Eurovision2019Web.Router do
 
     get "/", PageController, :index
     resources "/registrations", UserController, only: [:create, :new]
+    get "/sign-in", SessionController, :new
+    post "/sign-in", SessionController, :create
+    delete "/sign-out", SessionController, :delete
     resources "/participants", ParticipantController
+    resources "/editions", EditionController
   end
 
   # Other scopes may use custom stacks.

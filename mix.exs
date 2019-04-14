@@ -33,6 +33,8 @@ defmodule Eurovision2019.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:bcrypt_elixir, "~> 2.0"},
+      {:comeonin, "~> 5.1"},
       {:google_api_storage, "~> 0.0.1"},
       {:goth, "~> 0.6.0"},
       {:phoenix, "~> 1.4.3"},

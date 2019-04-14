@@ -1,0 +1,26 @@
+<h1>Listing Editions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Year</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for edition <- @editions do %>
+    <tr>
+      <td><%= edition.year %></td>
+
+      <td>
+        <%= link "Show", to: Routes.edition_path(@conn, :show, edition) %>
+        <%= link "Edit", to: Routes.edition_path(@conn, :edit, edition) %>
+        <%= link "Delete", to: Routes.edition_path(@conn, :delete, edition), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Edition", to: Routes.edition_path(@conn, :new) %></span>

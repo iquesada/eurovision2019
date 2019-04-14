@@ -42,6 +42,8 @@ defmodule Eurovision2019Web do
       import Eurovision2019Web.ErrorHelpers
       import Eurovision2019Web.Gettext
       alias Eurovision2019Web.Router.Helpers, as: Routes
+
+      import Eurovision2019.Helpers.Auth, only: [signed_in?: 1]
     end
   end
 
