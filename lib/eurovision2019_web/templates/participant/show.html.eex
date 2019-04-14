@@ -1,0 +1,30 @@
+<h1>Show Participant</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @participant.name %>
+  </li>
+
+  <li>
+    <strong>Country:</strong>
+    <%= @participant.country %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @participant.description %>
+  </li>
+
+  <li>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= @participant.video %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>)
+  </li>
+
+  <li>
+    <%= img_tag(photo_url(@participant)) %>
+  </li>
+</ul>
+
+<span><%= link "Edit", to: Routes.participant_path(@conn, :edit, @participant) %></span>
+<span><%= link "Back", to: Routes.participant_path(@conn, :index) %></span>
