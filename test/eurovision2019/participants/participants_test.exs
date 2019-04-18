@@ -1,7 +1,7 @@
 defmodule Eurovision2019.ParticipantsTest do
   use Eurovision2019.DataCase
 
-  alias Eurovision2019.Participants
+  alias Eurovision2019.{Editions, Participants}
 
   describe "participants" do
     alias Eurovision2019.Participants.Participant
@@ -15,16 +15,19 @@ defmodule Eurovision2019.ParticipantsTest do
     @invalid_attrs %{country: nil, description: nil, name: nil}
 
     def participant_fixture(attrs \\ %{}) do
+      {:ok, edition} = %{year: "1990"} |> Editions.create_edition()
+      new_attrs = @valid_attrs |> Map.put(:edition_id, edition.id)
+
       {:ok, participant} =
         attrs
-        |> Enum.into(@valid_attrs)
+        |> Enum.into(new_attrs)
         |> Participants.create_participant()
 
       participant
     end
 
     test "list_participants/0 returns all participants" do
-      participant = participant_fixture()
+      participant = participant_fixture(@valid_attrs)
       assert Participants.list_participants() == [participant]
     end
 
@@ -34,7 +37,9 @@ defmodule Eurovision2019.ParticipantsTest do
     end
 
     test "create_participant/1 with valid data creates a participant" do
-      assert {:ok, %Participant{} = participant} = Participants.create_participant(@valid_attrs)
+      {:ok, edition} = %{year: "1991"} |> Editions.create_edition()
+      attrs = @valid_attrs |> Map.put(:edition_id, edition.id)
+      assert {:ok, %Participant{} = participant} = Participants.create_participant(attrs)
       assert participant.country == "some country"
       assert participant.description == "some description"
       assert participant.name == "some name"

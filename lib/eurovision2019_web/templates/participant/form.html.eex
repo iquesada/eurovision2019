@@ -5,6 +5,10 @@
     </div>
   <% end %>
 
+  <%= label f, :edition_id %>
+  <%= select f, :edition_id, editions() %>
+  <%= error_tag f, :edition_id %>
+
   <%= label f, :name %>
   <%= text_input f, :name %>
   <%= error_tag f, :name %>

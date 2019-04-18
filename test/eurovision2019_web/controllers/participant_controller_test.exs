@@ -1,6 +1,14 @@
 defmodule Eurovision2019Web.ParticipantControllerTest do
   use Eurovision2019Web.ConnCase
 
+  alias Eurovision2019.{Accounts, Editions}
+
+  setup %{conn: conn} do
+    {:ok, user} = %{username: "test", encrypted_password: "123456"} |> Accounts.create_user()
+    conn_with_user = conn |> Plug.Test.init_test_session(current_user_id: user.id)
+    {:ok, conn: conn_with_user}
+  end
+
   alias Eurovision2019.Participants
 
   @create_attrs %{country: "some country", description: "some description", name: "some name"}
@@ -12,7 +20,10 @@ defmodule Eurovision2019Web.ParticipantControllerTest do
   @invalid_attrs %{country: nil, description: nil, name: nil}
 
   def fixture(:participant) do
-    {:ok, participant} = Participants.create_participant(@create_attrs)
+    {:ok, edition} = %{year: "1990"} |> Editions.create_edition()
+    new_attrs = @create_attrs |> Map.put(:edition_id, edition.id)
+
+    {:ok, participant} = Participants.create_participant(new_attrs)
     participant
   end
 
@@ -32,7 +43,10 @@ defmodule Eurovision2019Web.ParticipantControllerTest do
 
   describe "create participant" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.participant_path(conn, :create), participant: @create_attrs)
+      {:ok, edition} = %{year: "1990"} |> Editions.create_edition()
+      new_attrs = @create_attrs |> Map.put(:edition_id, edition.id)
+
+      conn = post(conn, Routes.participant_path(conn, :create), participant: new_attrs)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.participant_path(conn, :show, id)

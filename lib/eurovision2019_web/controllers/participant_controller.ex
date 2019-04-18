@@ -6,8 +6,6 @@ defmodule Eurovision2019Web.ParticipantController do
   alias Eurovision2019.Participants
   alias Eurovision2019.Participants.Participant
 
-  @media_url Application.app_dir(:eurovision2019, "priv/static/media")
-
   alias Eurovision2019.Accounts
 
   plug :check_auth when action in [:new, :create, :edit, :update, :delete]
@@ -41,7 +39,7 @@ defmodule Eurovision2019Web.ParticipantController do
       {:ok, participant} ->
         conn
         |> put_flash(:info, "Participant created successfully.")
-        |> redirect(to: Routes.Routes.participant_path(conn, :show, participant))
+        |> redirect(to: Routes.participant_path(conn, :show, participant))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -66,7 +64,7 @@ defmodule Eurovision2019Web.ParticipantController do
       {:ok, participant} ->
         conn
         |> put_flash(:info, "Participant updated successfully.")
-        |> redirect(to: Routes.Routes.participant_path(conn, :show, participant))
+        |> redirect(to: Routes.participant_path(conn, :show, participant))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", participant: participant, changeset: changeset)
@@ -79,6 +77,6 @@ defmodule Eurovision2019Web.ParticipantController do
 
     conn
     |> put_flash(:info, "Participant deleted successfully.")
-    |> redirect(to: Routes.Routes.participant_path(conn, :index))
+    |> redirect(to: Routes.participant_path(conn, :index))
   end
 end

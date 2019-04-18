@@ -4,7 +4,7 @@ defmodule Eurovision2019.Editions.Edition do
 
   schema "editions" do
     field :year, :string
-    has_many :participants, Eurovision2019.Participant
+    has_many :participants, Eurovision2019.Participants.Participant
 
     timestamps()
   end

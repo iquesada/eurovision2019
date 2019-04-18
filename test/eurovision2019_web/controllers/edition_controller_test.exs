@@ -1,6 +1,14 @@
 defmodule Eurovision2019Web.EditionControllerTest do
   use Eurovision2019Web.ConnCase
 
+  alias Eurovision2019.Accounts
+
+  setup %{conn: conn} do
+    {:ok, user} = %{username: "test", encrypted_password: "123456"} |> Accounts.create_user()
+    conn_with_user = conn |> Plug.Test.init_test_session(current_user_id: user.id)
+    {:ok, conn: conn_with_user}
+  end
+
   alias Eurovision2019.Editions
 
   @create_attrs %{year: "some year"}
