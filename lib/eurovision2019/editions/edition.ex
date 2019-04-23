@@ -4,6 +4,7 @@ defmodule Eurovision2019.Editions.Edition do
 
   schema "editions" do
     field :year, :string
+    field :closed, :boolean, default: false
     has_many :participants, Eurovision2019.Participants.Participant
 
     timestamps()
