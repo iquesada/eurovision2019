@@ -4,7 +4,15 @@ defmodule Eurovision2019.Editions do
   """
 
   import Ecto.Query, warn: false
-  alias Eurovision2019.Repo
+
+  alias Eurovision2019.{
+    Accounts.User,
+    Participants.Participant,
+    Repo,
+    Results.Result,
+    Votes.Vote,
+    Votings.Voting
+  }
 
   alias Eurovision2019.Editions.Edition
 
@@ -100,5 +108,33 @@ defmodule Eurovision2019.Editions do
   """
   def change_edition(%Edition{} = edition) do
     Edition.changeset(edition, %{})
+  end
+
+  def close_edition(%Edition{} = edition) do
+    Ecto.assoc(edition, :participants)
+    |> Repo.all()
+    |> Enum.map(&create_result/1)
+
+    edition
+    |> Edition.changeset(%{closed: true})
+    |> Repo.update()
+  end
+
+  defp create_result(%Participant{id: participant_id}) do
+    points =
+      from(vote in Vote,
+        where: vote.participant_id == ^participant_id,
+        join: user in User,
+        where: vote.user_id == user.id,
+        join: voting in Voting,
+        where: voting.user_id == user.id
+      )
+      |> Repo.all()
+      |> Enum.reduce(0, fn vote, acc -> vote.points + acc end)
+
+    result =
+      %Result{}
+      |> Result.changeset(%{points: points, participant_id: participant_id})
+      |> Repo.insert()
   end
 end

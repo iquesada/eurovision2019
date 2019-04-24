@@ -1,7 +1,15 @@
 defmodule Eurovision2019.EditionsTest do
   use Eurovision2019.DataCase
 
-  alias Eurovision2019.Editions
+  alias Eurovision2019.{
+    Accounts,
+    Editions,
+    Participants,
+    Votes,
+    Votings
+  }
+
+  @votes [1, 2, 3, 4, 5, 6, 7, 8, 10, 12]
 
   describe "editions" do
     alias Eurovision2019.Editions.Edition
@@ -59,6 +67,43 @@ defmodule Eurovision2019.EditionsTest do
     test "change_edition/1 returns a edition changeset" do
       edition = edition_fixture()
       assert %Ecto.Changeset{} = Editions.change_edition(edition)
+    end
+
+    test "close_edition/1 on success" do
+      # Create edition
+      edition = edition_fixture(year: "latest")
+      # Create users
+      {:ok, user1} = %{username: "user1", encrypted_password: "123456"} |> Accounts.create_user()
+      {:ok, user2} = %{username: "user2", encrypted_password: "123456"} |> Accounts.create_user()
+      # Create participants
+      participant_base = %{
+        name: "close_edition_test_",
+        country: "country",
+        edition_id: edition.id
+      }
+
+      participants =
+        Enum.map(@votes, fn x ->
+          {Map.put(participant_base, :name, "voting_test_#{x}")
+           |> Participants.create_participant(), x}
+        end)
+
+      # Create votes
+      Enum.map(participants, fn {{:ok, participant}, vote} ->
+        Votes.vote(user1, participant, vote)
+      end)
+
+      Enum.map(participants, fn {{:ok, participant}, vote} ->
+        Votes.vote(user2, participant, vote)
+      end)
+
+      Votings.create(user1, edition)
+      Votings.create(user2, edition)
+
+      # Close edition
+      {:ok, closed_edition} = Editions.close_edition(edition)
+
+      assert closed_edition.closed == true
     end
   end
 end

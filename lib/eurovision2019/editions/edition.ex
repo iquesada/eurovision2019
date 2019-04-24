@@ -13,7 +13,7 @@ defmodule Eurovision2019.Editions.Edition do
   @doc false
   def changeset(edition, attrs) do
     edition
-    |> cast(attrs, [:year])
+    |> cast(attrs, [:year, :closed])
     |> validate_required([:year])
     |> unique_constraint(:year)
   end
