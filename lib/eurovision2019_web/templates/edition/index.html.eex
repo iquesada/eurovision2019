@@ -16,6 +16,9 @@
       <td>
         <%= link "Show", to: Routes.edition_path(@conn, :show, edition) %>
         <%= link "Edit", to: Routes.edition_path(@conn, :edit, edition) %>
+        <%= if !edition.closed do %>
+          <%= link "Close", to: Routes.edition_path(@conn, :close, edition) %>
+        <% end %>
         <%= link "Delete", to: Routes.edition_path(@conn, :delete, edition), method: :delete, data: [confirm: "Are you sure?"] %>
       </td>
     </tr>

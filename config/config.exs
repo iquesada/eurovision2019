@@ -15,7 +15,10 @@ config :eurovision2019, Eurovision2019Web.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "aCnrfCOb+gW3svrMm45rYi0JdQ53sqlwFG+RVs21eF+E3iESCyZzaTydTxB0G/u7",
   render_errors: [view: Eurovision2019Web.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Eurovision2019.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Eurovision2019.PubSub, adapter: Phoenix.PubSub.PG2],
+  live_view: [
+    signing_salt: "nqNsRfZEdgl0PnD6WsE+TJbuuNXDzU/S"
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,

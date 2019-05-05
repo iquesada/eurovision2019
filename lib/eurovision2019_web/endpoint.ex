@@ -1,6 +1,8 @@
 defmodule Eurovision2019Web.Endpoint do
   use Phoenix.Endpoint, otp_app: :eurovision2019
 
+  socket "/live", Phoenix.LiveView.Socket
+
   socket "/socket", Eurovision2019Web.UserSocket,
     websocket: true,
     longpoll: false

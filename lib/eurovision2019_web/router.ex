@@ -5,6 +5,7 @@ defmodule Eurovision2019Web.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
+    plug Phoenix.LiveView.Flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -23,6 +24,7 @@ defmodule Eurovision2019Web.Router do
     delete "/sign-out", SessionController, :delete
     resources "/participants", ParticipantController
     resources "/editions", EditionController
+    get "/editions/:id/close", EditionController, :close
   end
 
   # Other scopes may use custom stacks.

@@ -23,6 +23,7 @@ defmodule Eurovision2019Web do
 
       import Plug.Conn
       import Eurovision2019Web.Gettext
+      import Phoenix.LiveView.Controller, only: [live_render: 3]
       alias Eurovision2019Web.Router.Helpers, as: Routes
     end
   end
@@ -44,6 +45,7 @@ defmodule Eurovision2019Web do
       alias Eurovision2019Web.Router.Helpers, as: Routes
 
       import Eurovision2019.Helpers.Auth, only: [signed_in?: 1]
+      import Phoenix.LiveView, only: [live_render: 2, live_render: 3]
     end
   end
 
@@ -52,6 +54,7 @@ defmodule Eurovision2019Web do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
     end
   end
 

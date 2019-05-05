@@ -132,9 +132,30 @@ defmodule Eurovision2019.Editions do
       |> Repo.all()
       |> Enum.reduce(0, fn vote, acc -> vote.points + acc end)
 
-    result =
-      %Result{}
-      |> Result.changeset(%{points: points, participant_id: participant_id})
-      |> Repo.insert()
+    %Result{}
+    |> Result.changeset(%{points: points, participant_id: participant_id})
+    |> Repo.insert()
+  end
+
+  def fetch_edition_for_voting(id, user_id) do
+    edition = get_edition!(id)
+
+    participants =
+      Ecto.assoc(edition, :participants)
+      |> order_by(asc: :country)
+      |> Repo.all()
+
+    participant_ids = Enum.map(participants, & &1.id)
+
+    raw_votes =
+      from(vote in Vote,
+        where: vote.participant_id in ^participant_ids and vote.user_id == ^user_id
+      )
+      |> Repo.all()
+
+    votes =
+      Enum.reduce(raw_votes, [], fn vote, acc -> [{vote.participant_id, vote.points} | acc] end)
+
+    %{edition: edition, participants: participants, votes: votes}
   end
 end

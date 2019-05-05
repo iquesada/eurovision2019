@@ -1,0 +1,19 @@
+<div>
+    <%= for participant <- @participants do %>
+        <h2>Participant <%= participant.country %> - <%= get_points(participant, @votes) %> points</h2>
+        <%= if !@closed do %>
+            <form phx-submit="vote">
+                <input type="hidden" id="participant_<%= participant.id %>" name="id" value="<%= participant.id %>"/>
+                <input type="text" id="points_participant_<%= participant.id %>" name="points" value=""/>
+                <input type="submit" id="submit_participant_<%= participant.id %>"/>
+            </form>
+        <% end %>
+    <% end %>
+    <%= if !@closed do %>
+        <%= if @completed do %>
+            <button phx-click="send">Send points</button>
+        <% else %>
+            Your current votes are <%= inspect(Enum.map(@votes,fn {_, p} -> p end) |> Enum.sort()) %>
+        <% end %>
+    <% end %>
+</div>

@@ -1,11 +1,15 @@
 defmodule Eurovision2019Web.EditionController do
   use Eurovision2019Web, :controller
+  alias Phoenix.LiveView
+
+  require Logger
 
   alias Eurovision2019.Accounts
   alias Eurovision2019.Editions
   alias Eurovision2019.Editions.Edition
+  alias Eurovision2019.Repo
 
-  plug :check_auth when action in [:new, :create, :edit, :update, :delete]
+  plug :check_auth when action in [:new, :create, :edit, :update, :delete, :show, :close]
 
   defp check_auth(conn, _args) do
     if user_id = get_session(conn, :current_user_id) do
@@ -43,9 +47,12 @@ defmodule Eurovision2019Web.EditionController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    edition = Editions.get_edition!(id)
-    render(conn, "show.html", edition: edition)
+  def show(%{assigns: %{current_user: current_user}} = conn, %{"id" => id}) do
+    session_data =
+      Editions.fetch_edition_for_voting(id, current_user.id)
+      |> Map.put(:current_user, current_user)
+
+    LiveView.Controller.live_render(conn, Eurovision2019Web.EditionVoteView, session: session_data)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -74,6 +81,15 @@ defmodule Eurovision2019Web.EditionController do
 
     conn
     |> put_flash(:info, "Edition deleted successfully.")
+    |> redirect(to: Routes.edition_path(conn, :index))
+  end
+
+  def close(conn, %{"id" => id}) do
+    Editions.get_edition!(id)
+    |> Editions.close_edition()
+
+    conn
+    |> put_flash(:info, "Edition closed successfully.")
     |> redirect(to: Routes.edition_path(conn, :index))
   end
 end

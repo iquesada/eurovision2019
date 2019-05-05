@@ -9,6 +9,9 @@
   <%= text_input f, :year %>
   <%= error_tag f, :year %>
 
+  <%= label f, :closed %>
+  <%= checkbox f, :closed, disabled: true %>
+
   <div>
     <%= submit "Save" %>
   </div>

@@ -1,13 +1,9 @@
-<h1>Show Edition</h1>
+<h1>Eurovision <%= @edition.year %> - <%= length @participants %></h1>
 
-<ul>
-
-  <li>
-    <strong>Year:</strong>
-    <%= @edition.year %>
-  </li>
-
-</ul>
-
+<div>
+<%= for participant <- @participants do %>
+  <%= render "participant.html", votes: @votes, participant: participant %>
+<% end %>
+</div>
 <span><%= link "Edit", to: Routes.edition_path(@conn, :edit, @edition) %></span>
 <span><%= link "Back", to: Routes.edition_path(@conn, :index) %></span>

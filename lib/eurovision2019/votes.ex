@@ -14,8 +14,14 @@ defmodule Eurovision2019.Votes do
          {:ok, vote} <- Repo.insert(vote) do
       {:ok, vote}
     else
-      :duplicated -> {:error, :duplicated}
-      other -> other
+      {:duplicated, vote} ->
+        {:ok,
+         vote
+         |> Vote.changeset(%{points: points})
+         |> Repo.update()}
+
+      other ->
+        other
     end
   end
 
@@ -26,17 +32,18 @@ defmodule Eurovision2019.Votes do
       |> Enum.map(& &1.id)
 
     from(vote in Vote,
-      where: vote.user_id == ^user_id and vote.participant_id in ^participants,
+      where:
+        vote.user_id == ^user_id and vote.participant_id in ^participants and vote.points > 0,
       select: vote.points
     )
     |> Repo.all()
   end
 
-  defp check_vote(%{user_id: user_id, participant_id: participant_id, points: points}) do
-    Repo.get_by(Vote, user_id: user_id, participant_id: participant_id, points: points)
+  defp check_vote(%{user_id: user_id, participant_id: participant_id}) do
+    Repo.get_by(Vote, user_id: user_id, participant_id: participant_id)
     |> case do
       nil -> :ok
-      _ -> :duplicated
+      vote -> {:duplicated, vote}
     end
   end
 end

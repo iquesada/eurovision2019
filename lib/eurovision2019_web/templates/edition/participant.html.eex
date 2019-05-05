@@ -1,0 +1,2 @@
+<h2>Participant <%= @participant.country %></h2>
+Points: <%= get_points(@participant, @votes) %>

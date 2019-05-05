@@ -30,7 +30,7 @@ defmodule Eurovision2019.VotesTest do
       assert points == result.points
     end
 
-    test "error repeated vote" do
+    test "update repeated vote" do
       {:ok, user} =
         %{username: "votes_test_2", encrypted_password: "123456"} |> Accounts.create_user()
 
@@ -43,7 +43,7 @@ defmodule Eurovision2019.VotesTest do
       points = 5
 
       assert {:ok, _vote} = Votes.vote(user, participant, points)
-      assert {:error, :duplicated} = Votes.vote(user, participant, points)
+      assert {:ok, _vote} = Votes.vote(user, participant, points)
     end
   end
 end
