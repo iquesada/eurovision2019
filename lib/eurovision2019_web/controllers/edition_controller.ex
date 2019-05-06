@@ -8,6 +8,7 @@ defmodule Eurovision2019Web.EditionController do
   alias Eurovision2019.Editions
   alias Eurovision2019.Editions.Edition
   alias Eurovision2019.Repo
+  alias Eurovision2019.Results
 
   plug :check_auth when action in [:new, :create, :edit, :update, :delete, :show, :close]
 
@@ -91,5 +92,12 @@ defmodule Eurovision2019Web.EditionController do
     conn
     |> put_flash(:info, "Edition closed successfully.")
     |> redirect(to: Routes.edition_path(conn, :index))
+  end
+
+  def results(conn, %{"id" => id}) do
+    edition = Editions.get_edition!(id)
+    results = Results.get_results(edition)
+
+    render(conn, "results.html", results: results, edition: edition)
   end
 end

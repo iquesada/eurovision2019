@@ -25,7 +25,7 @@ defmodule Eurovision2019.Votes do
     end
   end
 
-  def user_votes_in_edition(%{id: user_id}, %{id: edition_id} = edition) do
+  def user_votes_in_edition(%{id: user_id}, edition) do
     participants =
       Ecto.assoc(edition, :participants)
       |> Repo.all()

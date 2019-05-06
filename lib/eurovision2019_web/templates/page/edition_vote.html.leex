@@ -1,7 +1,3 @@
 <h1>Eurovision <%= @edition.year %></h1>
 
-<%= if !@edition.closed do %>
-    <%= render "participants.html", assigns %>
-<% else %>
-    <%= render "results.html", assigns %>
-<% end %>
+<%= render "participants.html", assigns %>

@@ -10,8 +10,7 @@ defmodule Eurovision2019.Votings do
   def create(%{id: user_id} = user, %{id: edition_id} = edition) do
     case completed?(user, edition) do
       :ok ->
-        voting =
-          %Voting{}
+        %Voting{}
           |> Voting.changeset(%{user_id: user_id, edition_id: edition_id})
           |> Repo.insert()
 

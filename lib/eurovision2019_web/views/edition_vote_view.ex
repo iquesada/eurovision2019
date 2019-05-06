@@ -36,7 +36,6 @@ defmodule Eurovision2019Web.EditionVoteView do
     socket
     |> set_completed()
     |> set_closed()
-    |> set_results()
   end
 
   defp set_completed(%{assigns: %{current_user: current_user, edition: edition}} = socket) do
@@ -58,8 +57,5 @@ defmodule Eurovision2019Web.EditionVoteView do
       nil -> assign(socket, :closed, false)
       _ -> assign(socket, :closed, true)
     end
-  end
-
-  defp set_results(%{assigns: %{edition: edition}} = socket) do
   end
 end

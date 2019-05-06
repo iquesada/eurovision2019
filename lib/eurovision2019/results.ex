@@ -10,7 +10,7 @@ defmodule Eurovision2019.Results do
     Results.Result
   }
 
-  def get_result(%{id: edition_id}) do
+  def get_results(%{id: edition_id}) do
     from(result in Result,
       preload: :participant,
       join: participant in Participant,
@@ -19,5 +19,6 @@ defmodule Eurovision2019.Results do
       where: participant.edition_id == ^edition_id
     )
     |> Repo.all()
+    |> Enum.sort(&(&1.points > &2.points))
   end
 end

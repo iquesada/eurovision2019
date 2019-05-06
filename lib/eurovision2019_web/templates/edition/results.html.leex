@@ -1,0 +1,10 @@
+<h1>Eurovision <%= @edition.year %></h2>
+
+<% %{participant: winner} = get_winner(@results) %>
+<h2><%= winner.name %> - <%=winner.country %></h2>
+<%= img_tag(photo_url(winner)) %>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/<%= winner.video %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>)
+
+<%= for result <- @results do %>
+    <div><%= result.points %> - <%= result.participant.name %> (<%= result.participant.country %>)</div>
+<% end %>

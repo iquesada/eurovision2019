@@ -25,6 +25,7 @@ defmodule Eurovision2019Web.Router do
     resources "/participants", ParticipantController
     resources "/editions", EditionController
     get "/editions/:id/close", EditionController, :close
+    get "/editions/:id/results", EditionController, :results
   end
 
   # Other scopes may use custom stacks.
