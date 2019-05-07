@@ -1,3 +1,25 @@
 /* This file is for your main application css. */
 
 @import "./phoenix.css";
+
+section.container{
+    background-image: url(/images/background.jpg);
+}
+
+div.header{
+    width: 100%;
+}
+
+div.logo{
+    text-align: center;
+    padding: 30px 10px;
+}
+
+div.links{
+    width: 100%;
+    color: white;
+}
+
+div.links a{
+    color: white;
+}
