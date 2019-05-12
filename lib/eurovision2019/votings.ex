@@ -11,8 +11,8 @@ defmodule Eurovision2019.Votings do
     case completed?(user, edition) do
       :ok ->
         %Voting{}
-          |> Voting.changeset(%{user_id: user_id, edition_id: edition_id})
-          |> Repo.insert()
+        |> Voting.changeset(%{user_id: user_id, edition_id: edition_id})
+        |> Repo.insert()
 
       {:error, error} ->
         {:error, error}

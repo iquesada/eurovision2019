@@ -11,16 +11,26 @@ defmodule Eurovision2019Web.ParticipantController do
   plug :check_auth when action in [:new, :create, :edit, :update, :delete]
 
   defp check_auth(conn, _args) do
-    if user_id = get_session(conn, :current_user_id) do
-      current_user = Accounts.get_user!(user_id)
-
+    with {:ok, current_user} <- get_current_user(conn),
+         true <- is_admin?(current_user) do
       conn
       |> assign(:current_user, current_user)
     else
-      conn
-      |> put_flash(:error, "You need to be signed in to access that page.")
-      |> redirect(to: Routes.participant_path(conn, :index))
-      |> halt()
+      _ ->
+        conn
+        |> put_flash(:error, "You need to be admin to access that page.")
+        |> redirect(to: Routes.participant_path(conn, :index))
+        |> halt()
+    end
+  end
+
+  defp is_admin?(%{admin: admin}), do: admin
+
+  defp get_current_user(conn) do
+    if user_id = get_session(conn, :current_user_id) do
+      {:ok, Accounts.get_user!(user_id)}
+    else
+      {:error, :not_logged}
     end
   end
 

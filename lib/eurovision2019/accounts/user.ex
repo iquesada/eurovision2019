@@ -7,6 +7,7 @@ defmodule Eurovision2019.Accounts.User do
   schema "users" do
     field :encrypted_password, :string
     field :username, :string
+    field :admin, :boolean
 
     timestamps()
   end
@@ -14,7 +15,7 @@ defmodule Eurovision2019.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :encrypted_password])
+    |> cast(attrs, [:username, :encrypted_password, :admin])
     |> validate_required([:username, :encrypted_password])
     |> unique_constraint(:username)
     |> update_change(:encrypted_password, &Bcrypt.hash_pwd_salt/1)
