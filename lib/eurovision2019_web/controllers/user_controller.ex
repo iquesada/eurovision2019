@@ -4,8 +4,7 @@ defmodule Eurovision2019Web.UserController do
   alias Eurovision2019.Accounts
   alias Eurovision2019.Accounts.User
 
-  plug :check_auth when action in [:show, :new, :create, :edit, :update, :delete, :close]
-  # plug :check_admin when action in [:show, :new, :create, :edit, :update, :delete, :close]
+  plug :check_admin
 
   defp check_admin(conn, _args) do
     with {:ok, current_user} <- get_current_user(conn),
@@ -30,21 +29,6 @@ defmodule Eurovision2019Web.UserController do
       {:error, :not_logged}
     end
   end
-
-  defp check_auth(conn, _args) do
-    case get_current_user(conn) do
-      {:ok, current_user} ->
-        conn
-        |> assign(:current_user, current_user)
-
-      _ ->
-        conn
-        |> put_flash(:error, "You need to be signed in to access that page.")
-        |> redirect(to: Routes.user_path(conn, :index))
-        |> halt()
-    end
-  end
-
 
   def index(conn, _params) do
     users = Accounts.list_users()
