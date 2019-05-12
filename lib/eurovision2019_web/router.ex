@@ -22,6 +22,7 @@ defmodule Eurovision2019Web.Router do
     get "/sign-in", SessionController, :new
     post "/sign-in", SessionController, :create
     delete "/sign-out", SessionController, :delete
+    resources "/accounts", UserController
     resources "/participants", ParticipantController
     resources "/editions", EditionController
     get "/editions/:id/close", EditionController, :close

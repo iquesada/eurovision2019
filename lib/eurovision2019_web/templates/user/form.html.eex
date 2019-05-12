@@ -13,6 +13,9 @@
   <%= password_input f, :encrypted_password %>
   <%= error_tag f, :encrypted_password %>
 
+  <%= label f, :admin %>
+  <%= checkbox f, :admin %>
+
   <div>
     <%= submit "Save" %>
   </div>
