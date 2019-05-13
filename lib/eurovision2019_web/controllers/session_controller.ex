@@ -16,7 +16,7 @@ defmodule Eurovision2019Web.SessionController do
         conn
         |> put_session(:current_user_id, user.id)
         |> put_flash(:info, "Signed in successfully.")
-        |> redirect(to: Routes.participant_path(conn, :index))
+        |> redirect(to: Routes.edition_path(conn, :vote))
 
       {:error, _} ->
         conn

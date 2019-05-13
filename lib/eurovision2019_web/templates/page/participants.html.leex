@@ -1,6 +1,23 @@
 <div>
     <%= for participant <- @participants do %>
-        <h2>Participant <%= participant.country %> - <%= get_points(participant, @votes) %> points</h2>
+        <div>
+            <div>
+                <%= img_tag(photo_url(participant)) %>
+            </div>
+            <div class="participant-title">
+                <div class="text">
+                    <div class="country">
+                        <%= participant.country %>
+                    </div>
+                    <div class="name">
+                        <%= participant.name %>
+                    </div>
+                </div>
+                <div class="points">
+                    <%= get_points(participant, @votes) %>
+                </div>
+            </div>
+        </div>
         <%= if !@closed do %>
             <form phx-submit="vote">
                 <input type="hidden" id="participant_<%= participant.id %>" name="id" value="<%= participant.id %>"/>

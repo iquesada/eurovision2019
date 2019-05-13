@@ -17,16 +17,17 @@ defmodule Eurovision2019Web.Router do
   scope "/", Eurovision2019Web do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", EditionController, :vote
     resources "/registrations", UserController, only: [:create, :new]
     get "/sign-in", SessionController, :new
     post "/sign-in", SessionController, :create
     delete "/sign-out", SessionController, :delete
     resources "/accounts", UserController
     resources "/participants", ParticipantController
-    resources "/editions", EditionController
+    resources "/editions", EditionController, only: [:new, :index, :create, :edit, :update, :delete]
     get "/editions/:id/close", EditionController, :close
     get "/editions/:id/results", EditionController, :results
+    get "/editions/vote", EditionController, :vote
   end
 
   # Other scopes may use custom stacks.

@@ -10,7 +10,7 @@ defmodule Eurovision2019Web.EditionController do
   alias Eurovision2019.Repo
   alias Eurovision2019.Results
 
-  plug :check_auth when action in [:show]
+  plug :check_auth when action in [:vote]
   plug :check_admin when action in [:new, :create, :edit, :update, :delete, :close]
 
   defp check_admin(conn, _args) do
@@ -46,7 +46,7 @@ defmodule Eurovision2019Web.EditionController do
       _ ->
         conn
         |> put_flash(:error, "You need to be signed in to access that page.")
-        |> redirect(to: Routes.edition_path(conn, :index))
+        |> redirect(to: Routes.session_path(conn, :new))
         |> halt()
     end
   end
@@ -66,19 +66,29 @@ defmodule Eurovision2019Web.EditionController do
       {:ok, edition} ->
         conn
         |> put_flash(:info, "Edition created successfully.")
-        |> redirect(to: Routes.edition_path(conn, :show, edition))
+        |> redirect(to: Routes.edition_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
 
-  def show(%{assigns: %{current_user: current_user}} = conn, %{"id" => id}) do
-    session_data =
-      Editions.fetch_edition_for_voting(id, current_user.id)
-      |> Map.put(:current_user, current_user)
+  def vote(%{assigns: %{current_user: current_user}} = conn, _params) do
+    case Editions.open_edition() do
+      {:ok, %{id: edition_id}} ->
+        session_data =
+          Editions.fetch_edition_for_voting(edition_id, current_user.id)
+          |> Map.put(:current_user, current_user)
 
-    LiveView.Controller.live_render(conn, Eurovision2019Web.EditionVoteView, session: session_data)
+        LiveView.Controller.live_render(conn, Eurovision2019Web.EditionVoteView,
+          session: session_data
+        )
+
+      {:error, :not_found} ->
+        conn
+        |> put_flash(:info, "There are no edition active.")
+        |> redirect(to: Routes.edition_path(conn, :index))
+    end
   end
 
   def edit(conn, %{"id" => id}) do
@@ -94,7 +104,7 @@ defmodule Eurovision2019Web.EditionController do
       {:ok, edition} ->
         conn
         |> put_flash(:info, "Edition updated successfully.")
-        |> redirect(to: Routes.edition_path(conn, :show, edition))
+        |> redirect(to: Routes.edition_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", edition: edition, changeset: changeset)

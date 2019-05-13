@@ -23,3 +23,29 @@ div.links{
 div.links a{
     color: white;
 }
+
+div.participant-title{
+    color: white;
+    background-color: rgba(3,11,39,.7);
+    position: relative;
+    height: 100px;
+    top: -107px;
+    padding: 10px 20px;
+}
+div.participant-title div.country{
+    color: #2586a7;
+    font-size: 20px;
+}
+
+div.participant-title div.name{
+    font-size: 40px;
+}
+
+div.participant-title div.text{
+    float: left;
+}
+
+div.participant-title div.points{
+    float: right;
+    font-size: 60px;
+}
