@@ -28,17 +28,17 @@ div.participant-title{
     color: white;
     background-color: rgba(3,11,39,.7);
     position: relative;
-    height: 103px;
-    top: -110px;
-    padding: 10px 20px;
+    height: 69px;
+    top: -77px;
+    padding: 5px 10px;
 }
 div.participant-title div.country{
     color: #2586a7;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 div.participant-title div.name{
-    font-size: 40px;
+    font-size: 25px;
 }
 
 div.participant-title div.text{
@@ -47,13 +47,13 @@ div.participant-title div.text{
 
 div.participant-title div.points{
     float: right;
-    font-size: 60px;
+    font-size: 45px;
 }
 
 div.more-info{
     float: left;
     position: relative;
-    top: -100px;
+    top: -77px;
 }
 
 div.more-info div.description{
