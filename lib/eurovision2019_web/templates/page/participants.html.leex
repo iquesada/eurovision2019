@@ -1,6 +1,6 @@
 <div>
     <%= for participant <- @participants do %>
-        <div>
+        <div class="participant">
             <div>
                 <%= img_tag(photo_url(participant)) %>
             </div>
@@ -17,14 +17,28 @@
                     <%= get_points(participant, @votes) %>
                 </div>
             </div>
+            <div class="more-info">
+                <div class="more"><a href="#" onclick="showMore(event)">Ver más</a></div>
+                <div class="less hide"><a href="#" onclick="showLess(event)">Ocultar</a></div>
+                <div class="extended-info hide">
+                    <div class="vote">
+                        <%= if !@closed do %>
+                            <form phx-submit="vote">
+                                <input type="hidden" id="participant_<%= participant.id %>" name="id" value="<%= participant.id %>"/>
+                                <input type="number" min="0" max="12" placeholder="Puntuación" id="points_participant_<%= participant.id %>" name="points" value="" class="points"/>
+                                <input type="submit" id="submit_participant_<%= participant.id %>" value="Votar"/>
+                            </form>
+                        <% end %>
+                    </div>
+                    <div class="description">
+                        <%= participant.description %>
+                    </div>
+                    <div class="video">
+                        <iframe width="760" height="429" src="https://www.youtube.com/embed/<%= participant.video %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
         </div>
-        <%= if !@closed do %>
-            <form phx-submit="vote">
-                <input type="hidden" id="participant_<%= participant.id %>" name="id" value="<%= participant.id %>"/>
-                <input type="text" id="points_participant_<%= participant.id %>" name="points" value=""/>
-                <input type="submit" id="submit_participant_<%= participant.id %>"/>
-            </form>
-        <% end %>
     <% end %>
     <%= if !@closed do %>
         <%= if @completed do %>
