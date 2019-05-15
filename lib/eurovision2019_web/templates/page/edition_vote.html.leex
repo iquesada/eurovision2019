@@ -16,4 +16,10 @@
        e.preventDefault();
        return false;
     }
+
+    function toggle(id, e) {
+       $("[data-id=" + id + "]").toggleClass("hide");
+       e.preventDefault();
+       return false;
+    }
 </script>

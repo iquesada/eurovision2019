@@ -18,15 +18,15 @@
                 </div>
             </div>
             <div class="more-info">
-                <div class="more"><a href="#" onclick="showMore(event)">Ver más</a></div>
-                <div class="less hide"><a href="#" onclick="showLess(event)">Ocultar</a></div>
-                <div class="extended-info hide">
+                <div class="more" data-id="participant-<%= participant.id %>"><a href="#" onclick="toggle('participant-<%= participant.id %>', event)">Ver más</a></div>
+                <div class="less hide" data-id="participant-<%= participant.id %>"><a href="#" onclick="toggle('participant-<%= participant.id %>', event)">Ocultar</a></div>
+                <div class="extended-info hide" data-id="participant-<%= participant.id %>">
                     <div class="vote">
                         <%= if !@closed do %>
                             <form phx-submit="vote">
                                 <input type="hidden" id="participant_<%= participant.id %>" name="id" value="<%= participant.id %>"/>
-                                <input type="number" min="0" max="12" placeholder="Puntuación" id="points_participant_<%= participant.id %>" name="points" value="" class="points"/>
-                                <input type="submit" id="submit_participant_<%= participant.id %>" value="Votar"/>
+                                <input type="number" min="0" max="12" placeholder="Puntos" id="points_participant_<%= participant.id %>" name="points" value="" class="points"/>
+                                <input type="submit" id="submit_participant_<%= participant.id %>" value="Puntuar"/>
                             </form>
                         <% end %>
                     </div>
@@ -34,7 +34,7 @@
                         <%= participant.description %>
                     </div>
                     <div class="video">
-                        <iframe width="350" height="198" src="https://www.youtube.com/embed/<%= participant.video %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe width="300" height="170" src="https://www.youtube.com/embed/<%= participant.video %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>

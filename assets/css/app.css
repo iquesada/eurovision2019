@@ -28,9 +28,9 @@ div.participant-title{
     color: white;
     background-color: rgba(3,11,39,.7);
     position: relative;
-    height: 69px;
-    top: -77px;
-    padding: 5px 10px;
+    height: 56px;
+    top: -63px;
+    padding: 3px 10px;
 }
 div.participant-title div.country{
     color: #2586a7;
@@ -38,7 +38,7 @@ div.participant-title div.country{
 }
 
 div.participant-title div.name{
-    font-size: 25px;
+    font-size: 20px;
 }
 
 div.participant-title div.text{
@@ -47,13 +47,13 @@ div.participant-title div.text{
 
 div.participant-title div.points{
     float: right;
-    font-size: 45px;
+    font-size: 35px;
 }
 
 div.more-info{
     float: left;
     position: relative;
-    top: -77px;
+    top: -65px;
 }
 
 div.more-info div.description{
