@@ -6,19 +6,17 @@ defmodule Eurovision2019.Votes do
   alias __MODULE__.Vote
   alias Eurovision2019.Repo
 
-  def vote(%{id: user_id}, %{id: participant_id}, points) do
+  def vote(%{id: user_id} = user, %{id: participant_id} = participant, points) do
     attrs = %{user_id: user_id, participant_id: participant_id, points: points}
-    vote = %Vote{} |> Vote.changeset(attrs)
 
     with :ok <- check_vote(attrs),
-         {:ok, vote} <- Repo.insert(vote) do
+         {:ok, vote} <- add_vote(user, participant, points) do
       {:ok, vote}
     else
       {:duplicated, vote} ->
-        {:ok,
-         vote
-         |> Vote.changeset(%{points: points})
-         |> Repo.update()}
+        Repo.delete(vote)
+
+        {:ok, add_vote(user, participant, points)}
 
       other ->
         other
@@ -39,6 +37,17 @@ defmodule Eurovision2019.Votes do
     |> Repo.all()
   end
 
+  defp add_vote(_user, _participant, "0"), do: {:ok, %{}}
+
+  defp add_vote(%{id: user_id} = user, %{id: participant_id} = participant, points) do
+    attrs = %{user_id: user_id, participant_id: participant_id, points: points}
+
+    {:ok,
+     %Vote{}
+     |> Vote.changeset(attrs)
+     |> Repo.insert()}
+  end
+
   defp check_vote(%{user_id: user_id, participant_id: participant_id}) do
     Repo.get_by(Vote, user_id: user_id, participant_id: participant_id)
     |> case do
@@ -46,4 +55,7 @@ defmodule Eurovision2019.Votes do
       vote -> {:duplicated, vote}
     end
   end
+
+  defp valid_vote(0), do: {:error, :zero}
+  defp valid_vote(_), do: {:ok, :valid}
 end
