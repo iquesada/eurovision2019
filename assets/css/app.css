@@ -54,6 +54,8 @@ div.more-info{
     float: left;
     position: relative;
     top: -65px;
+    border-bottom: 1px solid #2586a7;
+    width: 100%;
 }
 
 div.more-info div.description{
@@ -74,4 +76,9 @@ div.more-info div.vote input.points{
 
 .hide{
     display: none;
+}
+
+div.voting-area{
+    font-weight: bold;
+    text-align: center;
 }

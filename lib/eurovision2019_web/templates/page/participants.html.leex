@@ -39,13 +39,14 @@
                 </div>
             </div>
         </div>
-        <hr/>
     <% end %>
-    <%= if !@closed do %>
-        <%= if @completed do %>
-            <button phx-click="send">Send points</button>
-        <% else %>
-            Your current votes are <%= inspect(Enum.map(@votes,fn {_, p} -> p end) |> Enum.sort()) %>
+    <div class="voting-area">
+        <%= if !@closed do %>
+            <%= if @completed do %>
+                <button phx-click="send">¡Votar!</button>
+            <% else %>
+                Tus puntuaciones actuales son <%= votes_to_string(@votes) %>
+            <% end %>
         <% end %>
-    <% end %>
+    </div>
 </div>

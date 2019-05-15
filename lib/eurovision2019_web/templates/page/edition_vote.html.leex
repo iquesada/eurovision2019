@@ -1,22 +1,6 @@
 <%= render "participants.html", assigns %>
 
 <script type="text/javascript">
-    function showMore(e) {
-       $(".more").addClass("hide");
-       $(".less").removeClass("hide");
-       $(".extended-info").removeClass("hide");
-       e.preventDefault();
-       return false;
-    }
-
-    function showLess(e) {
-       $(".more").removeClass("hide");
-       $(".less").addClass("hide");
-       $(".extended-info").addClass("hide");
-       e.preventDefault();
-       return false;
-    }
-
     function toggle(id, e) {
        $("[data-id=" + id + "]").toggleClass("hide");
        e.preventDefault();

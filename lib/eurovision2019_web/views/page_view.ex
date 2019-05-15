@@ -11,4 +11,11 @@ defmodule Eurovision2019Web.PageView do
       {_participant_id, points} -> points
     end
   end
+
+  def votes_to_string(votes) do
+    votes
+    |> Enum.map(fn {_, p} -> p end)
+    |> Enum.sort()
+    |> Enum.join(", ")
+  end
 end
