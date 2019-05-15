@@ -159,16 +159,37 @@ defmodule Eurovision2019.Editions do
     %{edition: edition, participants: participants, votes: votes}
   end
 
-  def open_edition() do
-    from(edition in Edition,
-      where: edition.closed == false,
-      order_by: [desc: :year],
-      limit: 1
-    )
+  def open_edition do
+    first_open()
     |> Repo.all()
     |> case do
       [] -> {:error, :not_found}
       [edition] -> {:ok, edition}
     end
+  end
+
+  def closed_edition do
+    first_closed
+    |> Repo.all()
+    |> case do
+      [] -> {:error, :not_found}
+      [edition] -> {:ok, edition}
+    end
+  end
+
+  defp first_closed do
+    from(edition in Edition,
+      where: edition.closed == true,
+      order_by: [desc: :year],
+      limit: 1
+    )
+  end
+
+  defp first_open do
+    from(edition in Edition,
+      where: edition.closed == false,
+      order_by: [desc: :year],
+      limit: 1
+    )
   end
 end

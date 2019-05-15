@@ -20,6 +20,8 @@
             <% else %>
               <%= link "Entrar", to: Routes.session_path(@conn, :new) %>
             <% end %>
+          <%= link "Votaciones", to: Routes.edition_path(@conn, :vote) %>
+          <%= link "Resultados", to: Routes.edition_path(@conn, :results) %>
           </div>
         </div>
       </section>

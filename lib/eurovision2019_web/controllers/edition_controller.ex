@@ -129,10 +129,13 @@ defmodule Eurovision2019Web.EditionController do
     |> redirect(to: Routes.edition_path(conn, :index))
   end
 
-  def results(conn, %{"id" => id}) do
-    edition = Editions.get_edition!(id)
-    results = Results.get_results(edition)
+  def results(conn, _params) do
+    case Editions.closed_edition() do
+      {:ok, edition} ->
+        render(conn, "results.html", results: Results.get_results(edition), edition: edition)
 
-    render(conn, "results.html", results: results, edition: edition)
+      _ ->
+        render(conn, "no_results.html")
+    end
   end
 end

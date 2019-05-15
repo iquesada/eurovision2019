@@ -27,7 +27,7 @@ defmodule Eurovision2019Web.EditionVoteView do
 
   def handle_event("send", _, %{assigns: assigns} = socket) do
     case Votings.create(assigns.current_user, assigns.edition) do
-      {:ok, _} -> {:noreply, assign(socket, :completed, true)}
+      {:ok, _} -> {:noreply, assign(socket, :closed, true)}
       _ -> {:noreply, set_socket_data(socket) |> assign(:send_error, true)}
     end
   end
@@ -54,8 +54,8 @@ defmodule Eurovision2019Web.EditionVoteView do
 
   defp set_closed(%{assigns: %{current_user: current_user, edition: edition}} = socket) do
     case Votings.get_voting(current_user, edition) do
-      nil -> assign(socket, :closed, false)
-      _ -> assign(socket, :closed, true)
+      {:ok, _} -> assign(socket, :closed, true)
+      {:error, _} -> assign(socket, :closed, false)
     end
   end
 end

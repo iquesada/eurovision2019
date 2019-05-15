@@ -29,7 +29,7 @@ defmodule Eurovision2019Web.Router do
       only: [:new, :index, :create, :edit, :update, :delete]
 
     get "/editions/:id/close", EditionController, :close
-    get "/editions/:id/results", EditionController, :results
+    get "/editions/results", EditionController, :results
     get "/editions/vote", EditionController, :vote
   end
 
