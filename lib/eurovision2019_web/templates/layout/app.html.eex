@@ -15,13 +15,18 @@
             <img src="/images/eurovision.svg">
           </div>
           <div class="links">
-            <%= if signed_in?(@conn) do %>
-              <%= link "Cerrar sesión", to: Routes.session_path(@conn, :delete), method: :delete %>
-            <% else %>
-              <%= link "Entrar", to: Routes.session_path(@conn, :new) %>
-            <% end %>
-          <%= link "Votaciones", to: Routes.edition_path(@conn, :vote) %>
-          <%= link "Resultados", to: Routes.edition_path(@conn, :results) %>
+            <div class="menu">
+              <%= link "Votaciones", to: Routes.edition_path(@conn, :vote) %>
+              |
+              <%= link "Resultados", to: Routes.edition_path(@conn, :results) %>
+            </div>
+            <div class="session">
+              <%= if signed_in?(@conn) do %>
+                <%= link "Salir", to: Routes.session_path(@conn, :delete), method: :delete %>
+              <% else %>
+                <%= link "Entrar", to: Routes.session_path(@conn, :new) %>
+              <% end %>
+            </div>
           </div>
         </div>
       </section>

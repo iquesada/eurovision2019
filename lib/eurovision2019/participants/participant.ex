@@ -9,6 +9,8 @@ defmodule Eurovision2019.Participants.Participant do
     field :video, :string
     field :photo, :string
     belongs_to :edition, Eurovision2019.Editions.Edition
+    has_many :votes, Eurovision2019.Votes.Vote, on_delete: :delete_all
+    has_many :results, Eurovision2019.Results.Result, on_delete: :delete_all
 
     timestamps()
   end

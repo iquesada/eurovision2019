@@ -215,3 +215,11 @@ div.voting-area{
     font-weight: bold;
     text-align: center;
 }
+
+div.session{
+    float: right;
+}
+
+div.menu{
+    float: left;
+}
