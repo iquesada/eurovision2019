@@ -1,3 +1,4 @@
+<%= if @edition.open do %>
 <div>
     <%= for participant <- @participants do %>
         <div class="participant">
@@ -52,3 +53,8 @@
         <% end %>
     </div>
 </div>
+<% else %>
+    <div>
+        Aún no se ha abierto el periodo de votaciones
+    </div>
+<% end %>

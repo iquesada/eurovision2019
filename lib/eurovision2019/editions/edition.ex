@@ -4,6 +4,7 @@ defmodule Eurovision2019.Editions.Edition do
 
   schema "editions" do
     field :year, :string
+    field :open, :boolean, default: false
     field :closed, :boolean, default: false
     has_many :participants, Eurovision2019.Participants.Participant, on_delete: :delete_all
 
@@ -13,7 +14,7 @@ defmodule Eurovision2019.Editions.Edition do
   @doc false
   def changeset(edition, attrs) do
     edition
-    |> cast(attrs, [:year, :closed])
+    |> cast(attrs, [:year, :closed, :open])
     |> validate_required([:year])
     |> unique_constraint(:year)
   end
