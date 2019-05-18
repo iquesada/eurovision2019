@@ -49,7 +49,7 @@ defmodule Eurovision2019Web.ParticipantController do
       {:ok, participant} ->
         conn
         |> put_flash(:info, "Participant created successfully.")
-        |> redirect(to: Routes.participant_path(conn, :show, participant))
+        |> redirect(to: Routes.participant_path(conn, :new))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
